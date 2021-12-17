@@ -124,6 +124,15 @@
 
 					var dataImage = ctx.createImageData(canvas.width, canvas.height)
 					var arr = new Uint8Array(dicom2Raw.getImagePixel(46));
+
+					for(var i = 0; i < arr.length; i++) {
+						var avg = (arr[i + 0] * 0.299 + arr[i + 1] * 0.587 + arr[i + 2] * 0.114);
+
+						arr[i + 0] = avg;    // R value
+						arr[i + 1] = avg;  // G value
+						arr[i + 2] = avg;    // B value
+						arr[i + 3] = arr[i + 3];  // A value
+					}
 					
 					dataImage.data.set(arr);
 
