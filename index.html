@@ -54,6 +54,9 @@
 		</div>
 		<div id="info"> 等待 Dicom... </div>
 		<div id="size"></div>
+		<div>
+			<canvas id="canvas"></canvas>
+		</div>
 		<div> 
 			<input type="text" placeholder="檔名_長_寬_高" id="file-name"> 
 		</div>
@@ -113,6 +116,18 @@
 						});
 					});
 
+					const canvas = document.getElementById('canvas');
+					const ctx = canvas.getContext('2d');
+
+					canvas.width = 512;
+					canvas.height = 512;
+
+					var dataImage = ctx.createImageData(canvas.width, canvas.height)
+					var arr = new Uint8Array(dicom2Raw.getImagePixel(46));
+					
+					dataImage.data.set(arr);
+
+					ctx.putImageData(dataImage,0,0);
 				}
 			);
 		};
@@ -164,7 +179,7 @@
 				so.addChild("轉換 DICOM 序列為 RAW 檔案", 1, true);
 				so.addChild("成功下載轉換好的 RAW 檔案", 1, true);
 				so.addChild("可下載 8 bit 或 16 bit 的 RAW 檔案", 1, false);
-				so.addChild("在網頁中顯示中間的圖像", 1, false);
+				so.addChild("在網頁中顯示中間的圖像", 1, true);
 				
 				so.renderModal(
 					document.body,
